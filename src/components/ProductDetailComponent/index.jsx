@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Image, InputNumber, Row } from "antd";
+import { Col, Image, Row } from "antd";
 import imageProduct from "../../assets/images/test01.png";
 import imageProduct02 from "../../assets/images/test02.png";
 import {

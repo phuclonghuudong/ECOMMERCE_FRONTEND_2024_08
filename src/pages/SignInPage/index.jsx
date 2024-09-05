@@ -8,6 +8,7 @@ import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 
 const SignInPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  setIsShowPassword();
 
   return (
     <div
