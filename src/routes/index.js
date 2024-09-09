@@ -24,23 +24,23 @@ export const routes = [
     isShowHeader: true,
   },
   {
-    path: "/:type",
-    page: TypeProductPage,
-    isShowHeader: true,
-  },
-  {
-    path: "/signin",
+    path: "/sign-in",
     page: SignInPage,
     isShowHeader: false,
   },
   {
-    path: "/signup",
+    path: "/sign-up",
     page: SignUpPage,
     isShowHeader: false,
   },
   {
     path: "/product-detail",
     page: ProductDetailPage,
+    isShowHeader: true,
+  },
+  {
+    path: "/:type",
+    page: TypeProductPage,
     isShowHeader: true,
   },
   {
