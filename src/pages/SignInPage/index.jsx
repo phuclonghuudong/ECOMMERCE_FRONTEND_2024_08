@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import imageLogoLogin from "../../assets/images/logo_login.png";
 import { WrapperContainerLeft, WrapperContainerRight, WrapperTextLight } from "./style";
 import InputForm from "../../components/InputForm";
@@ -6,6 +6,9 @@ import ButtonComponent from "./../../components/ButtonComponent/";
 import { Image } from "antd";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useMutationHook } from "../../hooks/useMutationHook";
+import * as UserService from "../../services/UserService";
+import LoadingComponent from "../../components/LoadingComponent";
 
 const SignInPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -13,6 +16,10 @@ const SignInPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const mutation = useMutationHook((data) => UserService.loginUser(data));
+
+  const { data, isPending } = mutation;
 
   const handleOnchangeEmail = (e) => {
     setEmail(e);
@@ -22,7 +29,10 @@ const SignInPage = () => {
   };
 
   const handleSignIn = () => {
-    console.log("email, password", email, password);
+    mutation.mutate({
+      email,
+      password,
+    });
   };
 
   const handleNavigateSignUp = () => {
@@ -63,22 +73,27 @@ const SignInPage = () => {
             placeholder="password"
             type={isShowPassword ? "text" : "password"}
           />
-          <ButtonComponent
-            disabled={!email.length || !password.length}
-            onClick={handleSignIn}
-            size={40}
-            styleButton={{
-              background: "rgb(255,57,69)",
-              borderRadius: "6px",
-              height: "48px",
-              width: "100%",
-              border: "none",
-              fontWeight: "700",
-              margin: "26px 0 10px",
-            }}
-            styleTextButton={{ color: "#fff" }}
-            textButton={"Tiếp tục"}
-          />
+          <div style={{ paddingTop: "10px" }}>
+            {data?.EC === "ERR" && <span style={{ color: "red" }}>{data?.EM}</span>}
+          </div>
+          <LoadingComponent isLoading={isPending}>
+            <ButtonComponent
+              disabled={!email.length || !password.length}
+              onClick={handleSignIn}
+              size={40}
+              styleButton={{
+                background: "rgb(255,57,69)",
+                borderRadius: "6px",
+                height: "48px",
+                width: "100%",
+                border: "none",
+                fontWeight: "700",
+                margin: "26px 0 10px",
+              }}
+              styleTextButton={{ color: "#fff" }}
+              textButton={"Tiếp tục"}
+            />
+          </LoadingComponent>
 
           <p>
             <WrapperTextLight> Quên mật khẩu</WrapperTextLight>
