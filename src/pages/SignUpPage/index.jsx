@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutationHook } from "../../hooks/useMutationHook";
 import * as UserService from "../../services/UserService";
 import LoadingComponent from "../../components/LoadingComponent";
+import * as message from "../../components/MessageComponent";
 
 const SignUpPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -20,8 +21,19 @@ const SignUpPage = () => {
   const [confirmPassword, setconfirmPassword] = useState("");
 
   const mutation = useMutationHook((data) => UserService.signUpUser(data));
+  console.log("mutation ------------", mutation);
 
-  const { data, isPending } = mutation;
+  const { data, isPending, isSuccess, isError } = mutation;
+
+  useEffect(() => {
+    if (isSuccess) {
+      message.success();
+      handleNavigateSignIn();
+    }
+    if (isError) {
+      message.error();
+    }
+  }, [isSuccess, isError]);
 
   const handleOnchangeEmail = (e) => {
     setEmail(e);
@@ -120,7 +132,7 @@ const SignUpPage = () => {
             <WrapperTextLight> Quên mật khẩu</WrapperTextLight>
           </p> */}
           <p style={{ cursor: "pointer" }}>
-            Bạn đã có tài khoản <WrapperTextLight onClick={handleNavigateSignIn}>Đăng ký</WrapperTextLight>
+            Bạn đã có tài khoản <WrapperTextLight onClick={handleNavigateSignIn}>Đăng nhập</WrapperTextLight>
           </p>
         </WrapperContainerLeft>
 
